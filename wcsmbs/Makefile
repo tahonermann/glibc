@@ -42,7 +42,7 @@ routines := wcscat wcschr wcscmp wcscpy wcscspn wcsdup wcslen wcsncat \
 	    wcsmbsload mbsrtowcs_l \
 	    isoc99_wscanf isoc99_vwscanf isoc99_fwscanf isoc99_vfwscanf \
 	    isoc99_swscanf isoc99_vswscanf \
-	    mbrtoc16 c16rtomb mbrtoc32 c32rtomb
+	    mbrtoc8 c8rtomb mbrtoc16 c16rtomb mbrtoc32 c32rtomb
 
 strop-tests :=  wcscmp wcsncmp wmemcmp wcslen wcschr wcsrchr wcscpy wcsnlen \
 		wcpcpy wcsncpy wcpncpy wcscat wcsncat wcschrnul wcsspn wcspbrk \
@@ -52,6 +52,7 @@ tests := tst-wcstof wcsmbs-tst1 tst-wcsnlen tst-btowc tst-mbrtowc \
 	 tst-c16c32-1 wcsatcliff tst-wcstol-locale tst-wcstod-nan-locale \
 	 tst-wcstod-round test-char-types tst-fgetwc-after-eof \
 	 tst-wcstod-nan-sign tst-c16-surrogate tst-c32-state \
+	 test-char8-type test-mbrtoc8 test-c8rtomb \
 	 $(addprefix test-,$(strop-tests)) tst-mbstowcs
 
 include ../Rules
@@ -101,6 +102,13 @@ CFLAGS-isoc99_wscanf.c += -fexceptions
 CFLAGS-isoc99_fwscanf.c += -fexceptions
 CFLAGS-isoc99_vwscanf.c += -fexceptions
 CFLAGS-isoc99_vfwscanf.c += -fexceptions
+
+CFLAGS-mbrtoc8.c += -D_CHAR8_T
+CFLAGS-c8rtomb.c += -D_CHAR8_T
+
+CFLAGS-test-char8-type.c += -D_CHAR8_T -Wno-pointer-sign
+CFLAGS-test-mbrtoc8.c += -D_CHAR8_T
+CFLAGS-test-c8rtomb.c += -D_CHAR8_T
 
 CPPFLAGS += $(libio-mtsafe)
 

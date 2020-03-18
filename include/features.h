@@ -58,6 +58,8 @@
    _REENTRANT, _THREAD_SAFE
 			Obsolete; equivalent to _POSIX_C_SOURCE=199506L.
 
+   _CHAR8_T		Add extensions for char8_t as specified in WG14 N2231.
+
    The `-ansi' switch to the GNU C compiler, and standards conformance
    options such as `-std=c99', define __STRICT_ANSI__.  If none of
    these are defined, or if _DEFAULT_SOURCE is defined, the default is
@@ -96,6 +98,12 @@
    __USE_ATFILE		Define *at interfaces and AT_* constants for them.
    __USE_GNU		Define GNU extensions.
    __USE_FORTIFY_LEVEL	Additional security measures used, according to level.
+   __GLIBC_USE_ISOC2X	Define ISO C2X things.
+   __GLIBC_USE_DEPRECATED_GETS
+			Define deprecated gets()
+   __GLIBC_USE_DEPRECATED_SCANF
+			Define deprecated scanf()
+   __GLIBC_USE_CHAR8_T	Define extensions for char8_t as specified in WG14 N2231.
 
    The macros `__GNU_LIBRARY__', `__GLIBC__', and `__GLIBC_MINOR__' are
    defined by this file unconditionally.  `__GNU_LIBRARY__' is provided
@@ -143,6 +151,7 @@
 #undef	__GLIBC_USE_ISOC2X
 #undef	__GLIBC_USE_DEPRECATED_GETS
 #undef	__GLIBC_USE_DEPRECATED_SCANF
+#undef	__GLIBC_USE_CHAR8_T
 
 /* Suppress kernel-name space pollution unless user expressedly asks
    for it.  */
@@ -413,6 +422,14 @@
 #endif
 #ifndef __USE_FORTIFY_LEVEL
 # define __USE_FORTIFY_LEVEL 0
+#endif
+
+/* Enable char8_t support if it is explicitly requested or if the C++
+   predefined feature test macro is defined.  */
+#if defined _CHAR8_T || defined __cpp_char8_t
+# define __GLIBC_USE_CHAR8_T	1
+#else
+# define __GLIBC_USE_CHAR8_T	0
 #endif
 
 /* The function 'gets' existed in C89, but is impossible to use
