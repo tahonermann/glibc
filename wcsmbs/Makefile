@@ -59,7 +59,7 @@ include ../Rules
 
 ifeq ($(run-built-tests),yes)
 LOCALES := de_DE.ISO-8859-1 de_DE.UTF-8 en_US.ANSI_X3.4-1968 hr_HR.ISO-8859-2 \
-	   ja_JP.EUC-JP zh_TW.EUC-TW tr_TR.UTF-8 tr_TR.ISO-8859-9
+	   ja_JP.EUC-JP zh_TW.EUC-TW tr_TR.UTF-8 tr_TR.ISO-8859-9 zh_HK.BIG5-HKSCS
 include ../gen-locales.mk
 
 $(objpfx)tst-btowc.out: $(gen-locales)

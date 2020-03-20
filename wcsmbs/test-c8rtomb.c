@@ -524,6 +524,49 @@ test_sjis (void)
 }
 
 static int
+test_big5_hkscs (void)
+{
+  const char *locale = "zh_HK.BIG5-HKSCS";
+  const char8_t *u8s;
+  char buf[MB_LEN_MAX];
+  mbstate_t s;
+
+  if (!setlocale (LC_ALL, locale))
+    {
+      fprintf (stderr, "locale '%s' not available!\n", locale);
+      exit (1);
+    }
+
+  /* A pair of two byte UTF-8 code unit sequences that map a Unicode code
+     point and combining character to a single double byte character.  */
+  u8s = (const char8_t*) u8"\u00CA\u0304"; /* U+00CA U+0304 => 0x88 0x62 */
+  memset (buf, 0, sizeof (buf));
+  memset (&s, 0, sizeof (s));
+  assert (c8rtomb (buf, u8s[0], &s) == (size_t) 0); /* 1st byte processed */
+  assert (c8rtomb (buf, u8s[1], &s) == (size_t) 0); /* 2nd byte processed */
+  assert (c8rtomb (buf, u8s[2], &s) == (size_t) 0); /* 3rd byte processed */
+  assert (c8rtomb (buf, u8s[3], &s) == (size_t) 2); /* 4th byte processed */
+  assert (buf[0] == (char) 0x88);
+  assert (buf[1] == (char) 0x62);
+  assert (mbsinit (&s));
+
+  /* Another pair of two byte UTF-8 code unit sequences that map a Unicode code
+     point and combining character to a single double byte character.  */
+  u8s = (const char8_t*) u8"\u00EA\u030C"; /* U+00EA U+030C => 0x88 0xA5 */
+  memset (buf, 0, sizeof (buf));
+  memset (&s, 0, sizeof (s));
+  assert (c8rtomb (buf, u8s[0], &s) == (size_t) 0); /* 1st byte processed */
+  assert (c8rtomb (buf, u8s[1], &s) == (size_t) 0); /* 2nd byte processed */
+  assert (c8rtomb (buf, u8s[2], &s) == (size_t) 0); /* 3rd byte processed */
+  assert (c8rtomb (buf, u8s[3], &s) == (size_t) 2); /* 4th byte processed */
+  assert (buf[0] == (char) 0x88);
+  assert (buf[1] == (char) 0xA5);
+  assert (mbsinit (&s));
+
+  return 0;
+}
+
+static int
 do_test (void)
 {
   int result = 0;
@@ -531,6 +574,7 @@ do_test (void)
   result |= test_invalid_utf8 ();
   result |= test_utf8 ();
   result |= test_sjis ();
+  result |= test_big5_hkscs ();
 
   return result;
 }
