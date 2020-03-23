@@ -52,7 +52,7 @@ c8rtomb (char *s, char8_t c8, mbstate_t *ps)
       if ((c8 >= 0x80 && c8 <= 0xC1) || c8 >= 0xF5)
 	{
 	  /* An invalid lead code unit.  */
-	  errno = EILSEQ;
+	  __set_errno (EILSEQ);
 	  return -1;
 	}
       if (c8 >= 0xC2)
@@ -79,7 +79,7 @@ c8rtomb (char *s, char8_t c8, mbstate_t *ps)
                (cu1 == 0xF4 && c8 > 0x8F))
 	    {
 	      /* An invalid second code unit.  */
-	      errno = EILSEQ;
+	      __set_errno (EILSEQ);
 	      return -1;
 	    }
 	  if (cu1 >= 0xE0)
@@ -99,7 +99,7 @@ c8rtomb (char *s, char8_t c8, mbstate_t *ps)
 	  if (c8 < 0x80 || c8 > 0xBF)
 	    {
 	      /* An invalid third or fourth code unit.  */
-	      errno = EILSEQ;
+	      __set_errno (EILSEQ);
 	      return -1;
 	    }
 	  if (ps->__value.__wchb[3] == 2 && cu1 >= 0xF0)
