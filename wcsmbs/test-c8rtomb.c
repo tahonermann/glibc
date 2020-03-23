@@ -298,6 +298,29 @@ test_invalid_utf8 (void)
 }
 
 static int
+test_null_output_buffer (void)
+{
+  mbstate_t s;
+
+  /* Null character with an initial state.  */
+  memset (&s, 0, sizeof (s));
+  assert (c8rtomb (NULL, u8"X"[0], &s) == (size_t) 1); /* null byte processed */
+  assert (mbsinit (&s));    /* Assert the state is now an initial state.  */
+
+  /* Null character with a non-initial state corresponding to an incompletely
+     read code unit sequence.  In this case, an error occurs since insufficient
+     information is available to complete the already started code unit
+     sequence and return to the initial state.  */
+  memset (&s, 0, sizeof (s));
+  s.__count |= 0x80000000;  /* Arrange for a non-initial state.  */
+  errno = 0;
+  assert (c8rtomb (NULL, u8"X"[0], &s) == (size_t) -1); /* null byte processed */
+  assert (errno == EILSEQ);
+
+  return 0;
+}
+
+static int
 test_utf8 (void)
 {
   const char *locale = "de_DE.UTF-8";
@@ -572,6 +595,7 @@ do_test (void)
   int result = 0;
 
   result |= test_invalid_utf8 ();
+  result |= test_null_output_buffer ();
   result |= test_utf8 ();
   result |= test_sjis ();
   result |= test_big5_hkscs ();

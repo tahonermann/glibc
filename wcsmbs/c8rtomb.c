@@ -28,7 +28,7 @@ static mbstate_t state;
 size_t
 c8rtomb (char *s, char8_t c8, mbstate_t *ps)
 {
-  /* This implementation depents on the converter invoke by wcrtomb not
+  /* This implementation depends on the converter invoked by wcrtomb not
      needing to retain state in either the top most bit of ps->__count or
      in ps->__value between invocations.  This implementation uses the
      top most bit of ps->__count to indicate that trailing code units are
@@ -43,7 +43,7 @@ c8rtomb (char *s, char8_t c8, mbstate_t *ps)
     {
       /* if 's' is a null pointer, behave as if u8'\0' was passed as 'c8'.  If
          'ps' is not in the initial state, an error will be reported below.  */
-      c8 = L'\0';
+      c8 = u8""[0];
     }
 
   if (! (ps->__count & 0x80000000))
