@@ -42,7 +42,8 @@ c8rtomb (char *s, char8_t c8, mbstate_t *ps)
   if (s == NULL)
     {
       /* if 's' is a null pointer, behave as if u8'\0' was passed as 'c8'.  If
-         'ps' is not in the initial state, an error will be reported below.  */
+         this occurs for an incomplete code unit sequence, then an error will
+         be reported below.  */
       c8 = u8""[0];
     }
 

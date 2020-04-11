@@ -300,6 +300,7 @@ test_invalid_utf8 (void)
 static int
 test_null_output_buffer (void)
 {
+  char buf[MB_LEN_MAX];
   mbstate_t s;
 
   /* Null character with an initial state.  */
@@ -307,14 +308,15 @@ test_null_output_buffer (void)
   assert (c8rtomb (NULL, u8"X"[0], &s) == (size_t) 1); /* null byte processed */
   assert (mbsinit (&s));    /* Assert the state is now an initial state.  */
 
-  /* Null character with a non-initial state corresponding to an incompletely
-     read code unit sequence.  In this case, an error occurs since insufficient
+  /* Null buffer with a state corresponding to an incompletely read code
+     unit sequence.  In this case, an error occurs since insufficient
      information is available to complete the already started code unit
      sequence and return to the initial state.  */
+  memset (buf, 0, sizeof (buf));
   memset (&s, 0, sizeof (s));
-  s.__count |= 0x80000000;  /* Arrange for a non-initial state.  */
+  assert (c8rtomb (buf, u8"\xC2"[0], &s) == (size_t)  0);  /* 1st byte processed */
   errno = 0;
-  assert (c8rtomb (NULL, u8"X"[0], &s) == (size_t) -1); /* null byte processed */
+  assert (c8rtomb (NULL, u8"\x80"[0], &s) == (size_t) -1); /* No trailing code unit */
   assert (errno == EILSEQ);
 
   return 0;
@@ -485,68 +487,6 @@ test_utf8 (void)
 }
 
 static int
-test_sjis (void)
-{
-  const char *locale = "ja_JP.SJIS";
-  const char8_t *u8s;
-  char buf[MB_LEN_MAX];
-  mbstate_t s;
-
-  if (!setlocale (LC_ALL, locale))
-    {
-      fprintf (stderr, "locale '%s' not available!\n", locale);
-      exit (1);
-    }
-
-  /* Null character.  */
-  u8s = (const char8_t*) u8"\x00"; /* U+0000 => 0x00 */
-  memset (buf, 0, sizeof (buf));
-  memset (&s, 0, sizeof (s));
-  assert (c8rtomb (buf, u8s[0], &s) == (size_t) 1); /* 1st byte processed */
-  assert (buf[0] == (char) 0x00);
-  assert (mbsinit (&s));
-
-  /* First non-null character in the ASCII range.  */
-  u8s = (const char8_t*) u8"\x01"; /* U+0001 => 0x01 */
-  memset (buf, 0, sizeof (buf));
-  memset (&s, 0, sizeof (s));
-  assert (c8rtomb (buf, u8s[0], &s) == (size_t) 1); /* 1st byte processed */
-  assert (buf[0] == (char) 0x01);
-  assert (mbsinit (&s));
-
-  /* Last character in the ASCII range.  */
-  u8s = (const char8_t*) u8"\x7F"; /* U+007F => 0x7F */
-  memset (buf, 0, sizeof (buf));
-  memset (&s, 0, sizeof (s));
-  assert (c8rtomb (buf, u8s[0], &s) == (size_t) 1); /* 1st byte processed */
-  assert (buf[0] == (char) 0x7F);
-  assert (mbsinit (&s));
-
-  /* A three byte UTF-8 code unit sequence that maps to a single code unit.  */
-  u8s = (const char8_t*) u8"\uFF61"; /* U+FF61 => 0xA1 */
-  memset (buf, 0, sizeof (buf));
-  memset (&s, 0, sizeof (s));
-  assert (c8rtomb (buf, u8s[0], &s) == (size_t) 0); /* 1st byte processed */
-  assert (c8rtomb (buf, u8s[1], &s) == (size_t) 0); /* 2nd byte processed */
-  assert (c8rtomb (buf, u8s[2], &s) == (size_t) 1); /* 3rd byte processed */
-  assert (buf[0] == (char) 0xA1);
-  assert (mbsinit (&s));
-
-  /* A three byte UTF-8 code unit sequence that maps to two code units.  */
-  u8s = (const char8_t*) u8"\u3000"; /* U+3000 => 0x81 0x40 */
-  memset (buf, 0, sizeof (buf));
-  memset (&s, 0, sizeof (s));
-  assert (c8rtomb (buf, u8s[0], &s) == (size_t) 0); /* 1st byte processed */
-  assert (c8rtomb (buf, u8s[1], &s) == (size_t) 0); /* 2nd byte processed */
-  assert (c8rtomb (buf, u8s[2], &s) == (size_t) 2); /* 3rd byte processed */
-  assert (buf[0] == (char) 0x81);
-  assert (buf[1] == (char) 0x40);
-  assert (mbsinit (&s));
-
-  return 0;
-}
-
-static int
 test_big5_hkscs (void)
 {
   const char *locale = "zh_HK.BIG5-HKSCS";
@@ -597,7 +537,6 @@ do_test (void)
   result |= test_invalid_utf8 ();
   result |= test_null_output_buffer ();
   result |= test_utf8 ();
-  result |= test_sjis ();
   result |= test_big5_hkscs ();
 
   return result;
