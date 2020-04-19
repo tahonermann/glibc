@@ -1,5 +1,5 @@
 /* Test char8_t types consistent with compiler.
-   Copyright (C) 2018 Free Software Foundation, Inc.
+   Copyright (C) 2020 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -16,11 +16,25 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
+/* Enable char8_t related library declarations regardless of whether core
+   language support is enabled.  This is necessary to allow independent
+   testing of library features.  */
+#include <features.h>
+#ifdef __GLIBC_USE_CHAR8_T
+# undef __GLIBC_USE_CHAR8_T
+#endif
+#define __GLIBC_USE_CHAR8_T 1
+
 #include <uchar.h>
 
 /* Verify that the char8_t type is recognized and can be assigned to a
-   string literal.  */
+   UTF-8 string literal.  The cast is used to avoid a compiler warning if
+   char8_t core language support is not enabled.  */
+#if __STDC_CHAR8_T
 const char8_t *s8 = u8"";
+#else
+const char8_t *s8 = (const char8_t*)u8"";
+#endif
 
 static int
 do_test (void)

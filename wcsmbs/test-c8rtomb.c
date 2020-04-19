@@ -17,6 +17,15 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
+/* Enable char8_t related library declarations regardless of whether core
+   language support is enabled.  This is necessary to allow independent
+   testing of library features.  */
+#include <features.h>
+#ifdef __GLIBC_USE_CHAR8_T
+# undef __GLIBC_USE_CHAR8_T
+#endif
+#define __GLIBC_USE_CHAR8_T 1
+
 /* We always want assert to be fully defined.  */
 #undef NDEBUG
 #include <assert.h>

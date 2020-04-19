@@ -16,7 +16,15 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-#define _CHAR8_T 1
+/* Ensure that char8_t support is enabled regardless of whether the host
+   compiler supports it.  This is necessary so that the char8_t typedef is
+   available for the following code to compile successfully.  */
+#include <features.h>
+#ifdef __GLIBC_USE_CHAR8_T
+# undef __GLIBC_USE_CHAR8_T
+#endif
+#define __GLIBC_USE_CHAR8_T 1
+
 #include <errno.h>
 #include <uchar.h>
 #include <wchar.h>

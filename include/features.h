@@ -33,6 +33,7 @@
 			Extensions to ISO C11 from TS 18661-4:2015.
    __STDC_WANT_IEC_60559_TYPES_EXT__
 			Extensions to ISO C11 from TS 18661-3:2015.
+   __STDC_CHAR8_T	Extensions for char8_t as specified in WG14 N2231.
 
    _POSIX_SOURCE	IEEE Std 1003.1.
    _POSIX_C_SOURCE	If ==1, like _POSIX_SOURCE; if >=2 add IEEE Std 1003.2;
@@ -57,8 +58,6 @@
 
    _REENTRANT, _THREAD_SAFE
 			Obsolete; equivalent to _POSIX_C_SOURCE=199506L.
-
-   _CHAR8_T		Add extensions for char8_t as specified in WG14 N2231.
 
    The `-ansi' switch to the GNU C compiler, and standards conformance
    options such as `-std=c99', define __STRICT_ANSI__.  If none of
@@ -424,14 +423,6 @@
 # define __USE_FORTIFY_LEVEL 0
 #endif
 
-/* Enable char8_t support if it is explicitly requested or if the C++
-   predefined feature test macro is defined.  */
-#if defined _CHAR8_T || defined __cpp_char8_t
-# define __GLIBC_USE_CHAR8_T	1
-#else
-# define __GLIBC_USE_CHAR8_T	0
-#endif
-
 /* The function 'gets' existed in C89, but is impossible to use
    safely.  It has been removed from ISO C11 and ISO C++14.  Note: for
    compatibility with various implementations of <cstdio>, this test
@@ -504,6 +495,14 @@
     && !defined __OPTIMIZE_SIZE__ && !defined __NO_INLINE__ \
     && defined __extern_inline
 # define __USE_EXTERN_INLINES	1
+#endif
+
+/* Declare char8_t related features if the compiler indicates core language
+   support is available.  */
+#if defined __STDC_CHAR8_T && __STDC_CHAR8_T > 0
+# define __GLIBC_USE_CHAR8_T   1
+#else
+# define __GLIBC_USE_CHAR8_T   0
 #endif
 
 

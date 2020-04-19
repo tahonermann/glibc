@@ -31,7 +31,7 @@
 #include <bits/types.h>
 #include <bits/types/mbstate_t.h>
 
-/* Define the char8_t typedef if explicitly requested, but only if the C++
+/* Define the char8_t typedef if support is enabled, but only if the C++
    predefined feature test macro that indicates char8_t is a builtin type
    is not defined.  */
 #if __GLIBC_USE (CHAR8_T) && !defined __cpp_char8_t
