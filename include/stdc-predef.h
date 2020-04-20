@@ -66,7 +66,7 @@
 
 #if defined __cplusplus && defined __cpp_char8_t
 # define __STDC_CHAR8_T			1
-#elif defined __STDC__ && defined __GCC_CHAR8_T
+#elif defined __STDC_VERSION__ && defined __GCC_CHAR8_T
 # define __STDC_CHAR8_T			1
 #else
 # define __STDC_CHAR8_T			0
