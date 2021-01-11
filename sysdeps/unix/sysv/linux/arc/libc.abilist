@@ -1920,6 +1920,7 @@ GLIBC_2.32 wprintf F
 GLIBC_2.32 write F
 GLIBC_2.32 writev F
 GLIBC_2.32 wscanf F
+GLIBC_2.33 c8rtomb F
 GLIBC_2.33 fstat F
 GLIBC_2.33 fstat64 F
 GLIBC_2.33 fstatat F
@@ -1927,6 +1928,7 @@ GLIBC_2.33 fstatat64 F
 GLIBC_2.33 lstat F
 GLIBC_2.33 lstat64 F
 GLIBC_2.33 mallinfo2 F
+GLIBC_2.33 mbrtoc8 F
 GLIBC_2.33 mknod F
 GLIBC_2.33 mknodat F
 GLIBC_2.33 stat F
