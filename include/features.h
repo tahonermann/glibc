@@ -33,7 +33,6 @@
 			Extensions to ISO C11 from TS 18661-4:2015.
    __STDC_WANT_IEC_60559_TYPES_EXT__
 			Extensions to ISO C11 from TS 18661-3:2015.
-   __STDC_CHAR8_T	Extensions for char8_t as specified in WG14 N2231.
 
    _POSIX_SOURCE	IEEE Std 1003.1.
    _POSIX_C_SOURCE	If ==1, like _POSIX_SOURCE; if >=2 add IEEE Std 1003.2;
@@ -58,6 +57,8 @@
 
    _REENTRANT, _THREAD_SAFE
 			Obsolete; equivalent to _POSIX_C_SOURCE=199506L.
+
+   _CHAR8_T_SOURCE	Extensions for char8_t as specified in WG14 N2231.
 
    The `-ansi' switch to the GNU C compiler, and standards conformance
    options such as `-std=c99', define __STRICT_ANSI__.  If none of
@@ -454,6 +455,16 @@
 # define __GLIBC_USE_DEPRECATED_SCANF 0
 #endif
 
+/* The char8_t related c8rtomb and mbrtoc8 functions are declared if the
+   C++ __cpp_char8_t feature test macro is defined or if _CHAR8_T_SOURCE
+   is defined.  The char8_t typedef is declared if _CHAR8_T_SOURCE is
+   defined and the C++ __cpp_char8_t feature test macro is not defined.  */
+#if defined _CHAR8_T_SOURCE || defined __cpp_char8_t
+# define __GLIBC_USE_CHAR8_T   1
+#else
+# define __GLIBC_USE_CHAR8_T   0
+#endif
+
 /* Get definitions of __STDC_* predefined macros, if the compiler has
    not preincluded this header automatically.  */
 #include <stdc-predef.h>
@@ -495,14 +506,6 @@
     && !defined __OPTIMIZE_SIZE__ && !defined __NO_INLINE__ \
     && defined __extern_inline
 # define __USE_EXTERN_INLINES	1
-#endif
-
-/* Declare char8_t related features if the compiler indicates core language
-   support is available.  */
-#if defined __STDC_CHAR8_T && __STDC_CHAR8_T > 0
-# define __GLIBC_USE_CHAR8_T   1
-#else
-# define __GLIBC_USE_CHAR8_T   0
 #endif
 
 

@@ -57,19 +57,4 @@
    - 3 additional Zanabazar Square characters */
 #define __STDC_ISO_10646__		201706L
 
-/* Support for char8_t and the related c8rtomb and mbrtoc8 functions is
-   contingent on the compiler expressing intent to support them.  For C++,
-   support is enabled if the __cpp_char8_t feature test macro is defined.
-   For C, a core language feature test macro has not yet been defined, so
-   support is only enabled if the gcc specific __GCC_CHAR8_T macro is
-   defined.  */
-
-#if defined __cplusplus && defined __cpp_char8_t
-# define __STDC_CHAR8_T			1
-#elif defined __STDC_VERSION__ && defined __GCC_CHAR8_T
-# define __STDC_CHAR8_T			1
-#else
-# define __STDC_CHAR8_T			0
-#endif
-
 #endif

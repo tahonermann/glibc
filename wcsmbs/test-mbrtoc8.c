@@ -17,9 +17,8 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-/* Enable char8_t related library declarations regardless of whether core
-   language support is enabled.  This is necessary to allow independent
-   testing of library features.  */
+/* Ensure that char8_t support is enabled so that the char8_t typedef and
+   mbrtoc8 function are declared.  */
 #include <features.h>
 #ifdef __GLIBC_USE_CHAR8_T
 # undef __GLIBC_USE_CHAR8_T
