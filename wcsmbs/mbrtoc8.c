@@ -44,11 +44,11 @@ static mbstate_t state;
 size_t
 mbrtoc8 (char8_t *pc8, const char *s, size_t n, mbstate_t *ps)
 {
-  /* This implementation depends on the by mbrtowc() not needing to retain
-     state in either the top most bit of ps->__count or in ps->__value between
-     invocations.  This implementation uses the top most bit of ps->__count to
-     indicate that trailing code units are yet to be written and uses
-     ps->__value to store those code units.  */
+  /* This implementation depends on the converter invoked by mbrtowc() not
+     needing to retain state in either the top most bit of ps->__count or
+     in ps->__value between invocations.  This implementation uses the
+     top most bit of ps->__count to indicate that trailing code units are
+     yet to be written and uses ps->__value to store those code units.  */
 
   if (ps == NULL)
     ps = &state;
