@@ -565,6 +565,7 @@ GLIBC_2.33 btowc F
 GLIBC_2.33 bzero F
 GLIBC_2.33 c16rtomb F
 GLIBC_2.33 c32rtomb F
+GLIBC_2.33 c8rtomb F
 GLIBC_2.33 calloc F
 GLIBC_2.33 canonicalize_file_name F
 GLIBC_2.33 capget F
@@ -1176,6 +1177,7 @@ GLIBC_2.33 mblen F
 GLIBC_2.33 mbrlen F
 GLIBC_2.33 mbrtoc16 F
 GLIBC_2.33 mbrtoc32 F
+GLIBC_2.33 mbrtoc8 F
 GLIBC_2.33 mbrtowc F
 GLIBC_2.33 mbsinit F
 GLIBC_2.33 mbsnrtowcs F
