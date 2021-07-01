@@ -1,6 +1,6 @@
-/* Copyright (C) 2020 Free Software Foundation, Inc.
+/* UTF-8 to multibyte conversion.
+   Copyright (C) 2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
-   Contributed by Tom Honermann <tom@honermann.net>, 2020.
 
    The GNU C Library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Lesser General Public
