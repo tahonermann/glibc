@@ -29,10 +29,9 @@ Major new features:
   C++20 P0482R6 and C2X N2653 proposals.  These functions perform conversions
   between multibyte sequences and the UTF-8 character encoding.  A char8_t
   typedef is added for the C2X N2653 proposal.  The functions are declared
-  in uchar.h if the C++20 __cpp_char8_t feature test macro or the
-  _CHAR8_T_SOURCE feature test macro is defined.  The char8_t typedef is
-  declared in uchar.h if _CHAR8_T_SOURCE is defined and __cpp_char8_t is
-  not defined.
+  in uchar.h if the C++20 __cpp_char8_t feature test macro is defined or
+  if _GNU_SOURCE is defined.  The char8_t typedef is declared in uchar.h if
+  _GNU_SOURCE is defined and __cpp_char8_t is not defined.
 
 Deprecated and removed features, and other changes affecting compatibility:
 

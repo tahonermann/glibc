@@ -17,10 +17,6 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-/* Ensure that char8_t support is enabled so that the char8_t typedef and
-   c8rtomb function are declared.  */
-#define _CHAR8_T_SOURCE
-
 /* We always want assert to be fully defined.  */
 #undef NDEBUG
 

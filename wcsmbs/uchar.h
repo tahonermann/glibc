@@ -31,10 +31,9 @@
 #include <bits/types.h>
 #include <bits/types/mbstate_t.h>
 
-/* Define the char8_t typedef if support is enabled, but only if the C++
-   predefined feature test macro that indicates char8_t is a builtin type
-   is not defined.  */
-#if __GLIBC_USE (CHAR8_T) && !defined __cpp_char8_t
+/* Declare the char8_t typedef in _GNU_SOURCE mode, but only if the C++
+   __cpp_char8_t feature test macro is not defined.  */
+#if defined __USE_GNU && !defined __cpp_char8_t
 /* Define the 8-bit character type.  */
 typedef unsigned char char8_t;
 #endif
@@ -48,7 +47,9 @@ typedef __uint_least32_t char32_t;
 
 __BEGIN_DECLS
 
-#if __GLIBC_USE (CHAR8_T)
+/* Declare mbrtoc8() and c8rtomb() in _GNU_SOURCE mode or if the C++
+   __cpp_char8_t feature test macro is defined.  */
+#if defined __USE_GNU || defined __cpp_char8_t
 /* Write char8_t representation of multibyte character pointed
    to by S to PC8.  */
 extern size_t mbrtoc8  (char8_t *__restrict __pc8,

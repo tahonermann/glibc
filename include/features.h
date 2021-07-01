@@ -60,8 +60,6 @@
    _REENTRANT, _THREAD_SAFE
 			Obsolete; equivalent to _POSIX_C_SOURCE=199506L.
 
-   _CHAR8_T_SOURCE	Extensions for char8_t as specified in WG14 N2231.
-
    The `-ansi' switch to the GNU C compiler, and standards conformance
    options such as `-std=c99', define __STRICT_ANSI__.  If none of
    these are defined, or if _DEFAULT_SOURCE is defined, the default is
@@ -107,7 +105,6 @@
 			Define deprecated gets()
    __GLIBC_USE_DEPRECATED_SCANF
 			Define deprecated scanf()
-   __GLIBC_USE_CHAR8_T	Define extensions for char8_t as specified in WG14 N2231.
 
    The macros `__GNU_LIBRARY__', `__GLIBC__', and `__GLIBC_MINOR__' are
    defined by this file unconditionally.  `__GNU_LIBRARY__' is provided
@@ -156,7 +153,6 @@
 #undef	__GLIBC_USE_ISOC2X
 #undef	__GLIBC_USE_DEPRECATED_GETS
 #undef	__GLIBC_USE_DEPRECATED_SCANF
-#undef	__GLIBC_USE_CHAR8_T
 
 /* Suppress kernel-name space pollution unless user expressedly asks
    for it.  */
@@ -464,16 +460,6 @@
 # define __GLIBC_USE_DEPRECATED_SCANF 1
 #else
 # define __GLIBC_USE_DEPRECATED_SCANF 0
-#endif
-
-/* The char8_t related c8rtomb and mbrtoc8 functions are declared if the
-   C++ __cpp_char8_t feature test macro is defined or if _CHAR8_T_SOURCE
-   is defined.  The char8_t typedef is declared if _CHAR8_T_SOURCE is
-   defined and the C++ __cpp_char8_t feature test macro is not defined.  */
-#if defined _CHAR8_T_SOURCE || defined __cpp_char8_t
-# define __GLIBC_USE_CHAR8_T   1
-#else
-# define __GLIBC_USE_CHAR8_T   0
 #endif
 
 /* Get definitions of __STDC_* predefined macros, if the compiler has

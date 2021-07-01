@@ -16,10 +16,6 @@
    License along with the GNU C Library; if not, see
    <https://www.gnu.org/licenses/>.  */
 
-/* Ensure that char8_t support is enabled so that the char8_t typedef is
-   declared.  */
-#define _CHAR8_T_SOURCE
-
 #include <features.h>
 #include <uchar.h>
 
