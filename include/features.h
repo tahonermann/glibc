@@ -100,11 +100,6 @@
 			MINSIGSTKSZ and SIGSTKSZ.
    __USE_GNU		Define GNU extensions.
    __USE_FORTIFY_LEVEL	Additional security measures used, according to level.
-   __GLIBC_USE_ISOC2X	Define ISO C2X things.
-   __GLIBC_USE_DEPRECATED_GETS
-			Define deprecated gets()
-   __GLIBC_USE_DEPRECATED_SCANF
-			Define deprecated scanf()
 
    The macros `__GNU_LIBRARY__', `__GLIBC__', and `__GLIBC_MINOR__' are
    defined by this file unconditionally.  `__GNU_LIBRARY__' is provided
