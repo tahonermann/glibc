@@ -30,6 +30,7 @@
 # #include <unistd.h>
 # #include <sys/resource.h>
 # #include <sys/stat.h>
+# #include <uchar.h>
 # EOF
 # gcc -D_GNU_SOURCE -E - |
 # egrep '^typedef.*;$' |
@@ -47,6 +48,7 @@ while read t; do
 #include <sys/stat.h>
 #include <sys/resource.h>
 #include <unistd.h>
+#include <uchar.h>
 void foo ($t) { }
 EOF
 ) |
@@ -56,6 +58,9 @@ blkcnt64_t
 blkcnt_t
 blksize_t
 caddr_t
+char16_t
+char32_t
+char8_t
 clockid_t
 clock_t
 daddr_t
@@ -77,6 +82,7 @@ int8_t
 intptr_t
 key_t
 loff_t
+mbstate_t
 mode_t
 nlink_t
 off64_t
