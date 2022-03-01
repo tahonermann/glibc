@@ -33,12 +33,12 @@
 
 /* Declare the C2x char8_t typedef in C2x modes, but only if the C++
   __cpp_char8_t feature test macro is not defined.  */
-#if __GLIBC_USE (ISOC2X) && !defined __cpp_char8_t
+#if __GLIBC_USE (ISOC2X) && !defined __cpp_char8_t && !defined __BUILTIN_CHARN_T__
 /* Define the 8-bit character type.  */
 typedef unsigned char char8_t;
 #endif
 
-#ifndef __USE_ISOCXX11
+#if !defined __USE_ISOCXX11 && !defined __BUILTIN_CHARN_T__
 /* Define the 16-bit and 32-bit character types.  */
 typedef __uint_least16_t char16_t;
 typedef __uint_least32_t char32_t;
